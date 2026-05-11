@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/aj3sh/cocox/compare/v0.3.0...v0.4.0) (2026-05-11)
+
+
+### Features
+
+* another feaat 2 ([a34d61f](https://github.com/aj3sh/cocox/commit/a34d61f64b465d979b020984bff00980a470d212))
+
 ## [0.3.0](https://github.com/aj3sh/cocox/compare/v0.2.0...v0.3.0) (2026-05-11)
 
 
