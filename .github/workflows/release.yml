@@ -71,4 +71,4 @@ jobs:
         with:
           tag_name: v0.4.0
           # tag_name: ${{ needs.release-please.outputs.tag_name }}
-          files: dist/${{ steps.archive.outputs.name }}.tar.gz
+          files: ${{ steps.archive.outputs.name }}.tar.gz
