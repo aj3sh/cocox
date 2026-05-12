@@ -6,26 +6,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-    steps:
-      - name: Release
-        id: release
-        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+  #   release-please:
+  #     runs-on: ubuntu-latest
+  #     permissions:
+  #       contents: write
+  #       pull-requests: write
+  #     outputs:
+  #       release_created: ${{ steps.release.outputs.release_created }}
+  #       tag_name: ${{ steps.release.outputs.tag_name }}
+  #     steps:
+  #       - name: Release
+  #         id: release
+  #         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
 
-      - uses: actions/checkout@v6
-        if: ${{ steps.release.outputs.release_created }}
+  #       - uses: actions/checkout@v6
+  #         if: ${{ steps.release.outputs.release_created }}
 
   release-build:
     runs-on: ubuntu-latest
-    needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
+    # needs: release-please
+    # if: ${{ needs.release-please.outputs.release_created }}
     strategy:
       matrix:
         target:
@@ -47,14 +47,28 @@ jobs:
       - name: Build
         run: cross build --target ${{ matrix.target }} --release
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: ${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/cocox
+      - name: Set archive name
+        id: archive
+        run: |
+          VERSION="v0.4.0"
+          echo "name=cocox_${VERSION}_${{ matrix.target }}" >> $GITHUB_OUTPUT
+
+      - name: Archive binary (Unix)
+        #   if: matrix.os_name != 'windows'
+        run: |
+          mkdir -p dist
+          cp target/${{ matrix.target }}/release/cocox dist/cocox
+          tar -czf ${{ steps.archive.outputs.name }}.tar.gz -C dist cocox
+
+      # For windows
+      # - name: Archive binary (Windows)
+      #   if: matrix.os_name == 'windows'
+      #   run: |
+      #     mkdir -p dist
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ needs.release-please.outputs.tag_name }}
-          files: target/${{ matrix.target }}/release/cocox
+          tag_name: v0.4.0
+          # tag_name: ${{ needs.release-please.outputs.tag_name }}
+          files: dist/${{ steps.archive.outputs.name }}.tar.gz
