@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/aj3sh/cocox/compare/v0.5.1...v0.5.2) (2026-05-16)
+
+
+### Bug Fixes
+
+* update release ci with reusable ([7553fe6](https://github.com/aj3sh/cocox/commit/7553fe6710aa6f125eb23d51f213eb547f04d4fb))
+
 ## [0.5.1](https://github.com/aj3sh/cocox/compare/v0.5.0...v0.5.1) (2026-05-16)
 
 
