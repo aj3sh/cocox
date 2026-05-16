@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/aj3sh/cocox/compare/v0.5.0...v0.5.1) (2026-05-16)
+
+
+### Bug Fixes
+
+* update release ci ([3394e16](https://github.com/aj3sh/cocox/commit/3394e16883282e9f17caad4f9d0ce84381f2b6c7))
+
 ## [0.5.0](https://github.com/aj3sh/cocox/compare/v0.4.0...v0.5.0) (2026-05-16)
 
 
