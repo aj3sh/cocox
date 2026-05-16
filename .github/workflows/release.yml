@@ -6,17 +6,21 @@ on:
   workflow_dispatch:
 
 jobs:
-    release-please:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-        pull-requests: write
-      steps:
-        - name: Release
-          id: release
-          uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Release
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
 
-        - uses: ./.github/workflows/build-release-artifacts.yml
-          if: ${{ steps.release.outputs.release_created }}
-          with:
-            tag: ${{ steps.release.outputs.tag_name }}
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Build Release artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        uses: ./.github/workflows/build-release-artifacts.yml
+        with:
+          tag: ${{ steps.release.outputs.tag_name }}
